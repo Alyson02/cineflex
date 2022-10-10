@@ -1,9 +1,13 @@
+import { Link } from "react-router-dom";
+import H1 from "shared/components/H1";
+import Loading from "shared/components/Loading";
+import ReqErro from "shared/components/ReqErro";
+
 const { default: axios } = require("axios");
 const { useState, useEffect } = require("react");
 const { default: Filme } = require("./Filme");
 const { default: Imagem } = require("./Filme/Imagem");
 const { default: FilmeWrapper } = require("./FilmeWrapper");
-const { default: Indicacao } = require("./Indicacao");
 
 function Home() {
   const [filmes, setFilmes] = useState([]);
@@ -13,17 +17,23 @@ function Home() {
     axios
       .get("https://mock-api.driven.com.br/api/v5/cineflex/movies")
       .then((res) => setFilmes(res.data))
-      .catch((erro) => setErro(true));
+      .catch(() => setErro(true));
   }, []);
+
+  if (erro) return <ReqErro />;
+
+  if (filmes.length === 0) return <Loading />;
 
   return (
     <>
-      <Indicacao>Selecione o filme</Indicacao>
+      <H1>Selecione o filme</H1>
       <FilmeWrapper>
         {filmes.map((filme) => (
-          <Filme key={filme.id}>
-            <Imagem src={filme.posterURL} />
-          </Filme>
+          <Link key={filme.id} to={`/sessao/${filme.id}`}>
+            <Filme data-identifier="movie-outdoor">
+              <Imagem src={filme.posterURL} />
+            </Filme>
+          </Link>
         ))}
       </FilmeWrapper>
     </>

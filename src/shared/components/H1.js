@@ -1,6 +1,6 @@
 const { default: styled } = require("styled-components");
 
-const Indicacao = styled.h1`
+const H1 = styled.h1`
   font-family: "Roboto";
   font-weight: 400;
   font-size: 24px;
@@ -10,4 +10,4 @@ const Indicacao = styled.h1`
   color: #293845;
 `;
 
-export default Indicacao;
+export default H1;
